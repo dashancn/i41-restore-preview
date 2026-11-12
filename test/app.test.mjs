@@ -27,8 +27,12 @@ test('page exposes a visible CPU fallback when WebGPU is unavailable', async () 
   assert.match(source, /crossOriginIsolated[\s\S]*\? Math\.min\(4/);
   assert.match(source, /: 1;/);
   assert.match(source, /ort\.env\.wasm\.proxy = false/);
+  assert.match(source, /requestAdapter\(\)/);
+  assert.match(source, /featureLevel: 'compatibility'/);
+  assert.match(source, /chrome:\/\/gpu/);
+  assert.match(source, /图形加速/);
   assert.match(source, /\$\('provider'\)\.value = 'wasm'/);
-  assert.match(source, /已自动切换到 CPU 兼容模式/);
+  assert.match(source, /已切换 CPU 模式/);
 });
 
 test('page discloses preview limits, model size and local processing', async () => {

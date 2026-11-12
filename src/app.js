@@ -25,20 +25,24 @@ function message(text, progress) {
 
 async function detectGpu() {
   if (!navigator.gpu) {
-    $('gpu-status').textContent = '不可用';
+    $('gpu-status').textContent = '浏览器未启用 WebGPU';
     $('provider').value = 'wasm';
-    message('WebGPU 不可用，已自动切换到 CPU 兼容模式。CPU 推理可能需要几十秒或更久。', 0);
+    message('未检测到 WebGPU。请更新 Chrome / Edge，并检查浏览器硬件加速。已切换 CPU 模式。', 0);
     return false;
   }
   try {
-    const adapter = await navigator.gpu.requestAdapter({ powerPreference: 'high-performance' });
-    if (!adapter) throw new Error('没有可用适配器');
-    $('gpu-status').textContent = '可用';
+    let adapter = await navigator.gpu.requestAdapter();
+    if (!adapter) adapter = await navigator.gpu.requestAdapter({ powerPreference: 'high-performance' });
+    if (!adapter) adapter = await navigator.gpu.requestAdapter({ featureLevel: 'compatibility' });
+    if (!adapter) throw new Error('浏览器没有返回 GPU 适配器');
+    const info = adapter.info;
+    const label = [info?.vendor, info?.architecture, info?.device].filter(Boolean).join(' · ');
+    $('gpu-status').textContent = label ? `可用：${label}` : '可用';
     return true;
   } catch (error) {
     $('gpu-status').textContent = `不可用：${error.message}`;
     $('provider').value = 'wasm';
-    message('WebGPU 不可用，已自动切换到 CPU 兼容模式。CPU 推理可能需要几十秒或更久。', 0);
+    message('WebGPU 无可用适配器。请打开 chrome://gpu 或 edge://gpu 查看原因，并确认“可用时使用图形加速”已开启、显卡驱动已更新。已切换 CPU 模式。', 0);
     return false;
   }
 }
