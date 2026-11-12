@@ -16,10 +16,16 @@ test('image dimensions reject unsafe inputs', () => {
   assert.throws(() => validateImageDimensions(5000, 5000));
 });
 
-test('provider selection is desktop WebGPU first and explicit', () => {
+test('provider selection can choose explicit CPU fallback', () => {
   assert.equal(selectProvider({ webgpu: true, requested: 'webgpu' }), 'webgpu');
   assert.equal(selectProvider({ webgpu: false, requested: 'webgpu' }), null);
   assert.equal(selectProvider({ webgpu: false, requested: 'wasm' }), 'wasm');
+});
+
+test('page exposes a visible CPU fallback when WebGPU is unavailable', async () => {
+  const source = await readFile(new URL('../src/app.js', import.meta.url), 'utf8');
+  assert.match(source, /\$\('provider'\)\.value = 'wasm'/);
+  assert.match(source, /已自动切换到 CPU 兼容模式/);
 });
 
 test('page discloses preview limits, model size and local processing', async () => {

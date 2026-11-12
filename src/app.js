@@ -23,6 +23,8 @@ function message(text, progress) {
 async function detectGpu() {
   if (!navigator.gpu) {
     $('gpu-status').textContent = '不可用';
+    $('provider').value = 'wasm';
+    message('WebGPU 不可用，已自动切换到 CPU 兼容模式。CPU 推理可能需要几十秒或更久。', 0);
     return false;
   }
   try {
@@ -32,6 +34,8 @@ async function detectGpu() {
     return true;
   } catch (error) {
     $('gpu-status').textContent = `不可用：${error.message}`;
+    $('provider').value = 'wasm';
+    message('WebGPU 不可用，已自动切换到 CPU 兼容模式。CPU 推理可能需要几十秒或更久。', 0);
     return false;
   }
 }
