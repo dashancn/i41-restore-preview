@@ -6,7 +6,7 @@ import { modelConfig, validateImageDimensions, selectProvider } from '../src/eng
 test('model config pins the reviewed INT8 artifact', () => {
   assert.equal(modelConfig.bytes, 74375477);
   assert.equal(modelConfig.sha256, '4b3983dba15b8dd26db1bc94be57558ca4d783424ca6f3715676ab53450bcb6c');
-  assert.match(modelConfig.url, /9e5912e04026135bc1a7c8557a2da66f521a7b8e/);
+  assert.match(modelConfig.url, /restoreformer_pp_int8w\.onnx$/);
 });
 
 test('image dimensions reject unsafe inputs', () => {

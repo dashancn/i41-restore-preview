@@ -1,5 +1,5 @@
 export const modelConfig = Object.freeze({
-  url: 'https://huggingface.co/Saimon8420/restoreformer-pp-web/resolve/9e5912e04026135bc1a7c8557a2da66f521a7b8e/restoreformer_pp_int8w.onnx',
+  url: new URL('../restoreformer_pp_int8w.onnx', import.meta.url).href,
   bytes: 74375477,
   sha256: '4b3983dba15b8dd26db1bc94be57558ca4d783424ca6f3715676ab53450bcb6c',
   inputSize: 512,
