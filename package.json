@@ -1,0 +1,20 @@
+{
+  "name": "i41-restore-preview",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "node --test test/app.test.mjs",
+    "test:browser": "node test/browser.mjs",
+    "build": "vite build",
+    "dev": "vite --host 0.0.0.0"
+  },
+  "dependencies": {
+    "onnxruntime-web": "1.21.0"
+  },
+  "devDependencies": {
+    "playwright-core": "1.51.1",
+    "vite": "6.1.0"
+  }
+}
