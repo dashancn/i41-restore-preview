@@ -12,7 +12,10 @@ let objectUrl = null;
 let outputBlob = null;
 let modelProvider = null;
 
-ort.env.wasm.numThreads = Math.min(4, navigator.hardwareConcurrency || 1);
+ort.env.wasm.numThreads = globalThis.crossOriginIsolated
+  ? Math.min(4, navigator.hardwareConcurrency || 1)
+  : 1;
+ort.env.wasm.proxy = false;
 ort.env.wasm.simd = true;
 
 function message(text, progress) {

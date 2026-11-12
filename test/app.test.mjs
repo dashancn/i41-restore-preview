@@ -24,6 +24,9 @@ test('provider selection can choose explicit CPU fallback', () => {
 
 test('page exposes a visible CPU fallback when WebGPU is unavailable', async () => {
   const source = await readFile(new URL('../src/app.js', import.meta.url), 'utf8');
+  assert.match(source, /crossOriginIsolated[\s\S]*\? Math\.min\(4/);
+  assert.match(source, /: 1;/);
+  assert.match(source, /ort\.env\.wasm\.proxy = false/);
   assert.match(source, /\$\('provider'\)\.value = 'wasm'/);
   assert.match(source, /已自动切换到 CPU 兼容模式/);
 });
